@@ -7,11 +7,18 @@ Code to help manage assets in your Eleventy project. This is not an `addPlugin` 
 Currently supported features:
 
 * Generate and inline code-split CSS specific to individual pages.
+* Can work as a standalone implementation (check out the `./sample/` directory) or in tandem with [`eleventy-plugin-vue`](https://github.com/11ty/eleventy-plugin-vue/).
 
 ## Installation
 
-_Coming soon_
+```sh
+npm install @11ty/eleventy-assets
+```
 
 ## Usage
 
-_Coming soon_
+See the `./sample/` directory for an example implementation.
+
+* A `usingComponent` shortcode to log component use in each template.
+* A `getCSS` filter for use in layout templates to output the code-split CSS for the current URL (only).
+* Component CSS is stored in `./sample/css/`
