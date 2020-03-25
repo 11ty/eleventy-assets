@@ -26,6 +26,10 @@ class InlineCodeManager {
     return fileExtension ? filePath.substr(0, filePath.lastIndexOf(fileExtension)) : filePath;
   }
 
+  hasComponent(componentName) {
+    return this.graph.hasNode(componentName);
+  }
+
   addComponentForUrl(componentName, url) {
     this._addDependency(componentName, this._normalizeUrlKey(url));
   }
@@ -76,6 +80,14 @@ class InlineCodeManager {
       let componentName = InlineCodeManager.getComponentNameFromPath(path, fileExtension);
       this.addComponentCode(componentName, styleNodes[path]);
     }
+  }
+
+  resetComponentCode() {
+    this.code = {};
+  }
+
+  hasComponentCode(componentName) {
+    return !!this.code[componentName];
   }
 
   addComponentCode(componentName, code) {
