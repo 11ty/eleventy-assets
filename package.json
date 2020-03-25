@@ -1,0 +1,40 @@
+{
+  "name": "@11ty/eleventy-assets",
+  "version": "1.0.0",
+  "description": "Code-split your CSS in Eleventy.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "AssetManager.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/11ty/eleventy-assets.git"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/11ty"
+  },
+  "keywords": [
+    "eleventy"
+  ],
+  "author": {
+    "name": "Zach Leatherman",
+    "email": "zachleatherman@gmail.com",
+    "url": "https://zachleat.com/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/11ty/eleventy-assets/issues"
+  },
+  "homepage": "https://github.com/11ty/eleventy-assets#readme",
+  "devDependencies": {
+    "ava": "^3.5.1"
+  },
+  "dependencies": {
+    "dependency-graph": "^0.9.0"
+  }
+}
+
