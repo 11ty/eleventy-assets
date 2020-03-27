@@ -1,6 +1,6 @@
 {
   "name": "@11ty/eleventy-assets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Code-split your CSS in Eleventy.",
   "publishConfig": {
     "access": "public"
