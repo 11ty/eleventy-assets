@@ -58,14 +58,17 @@ test("Relationships roll into final component list", t => {
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "parent"]);
 	t.deepEqual(mgr.getFullComponentList(), ["child", "parent"]);
 
+	mgr.addComponentForUrl("other-parent", "/other-path/");
+	t.deepEqual(mgr.getFullComponentList(), ["child", "parent", "other-parent"]);
+
 	mgr.addComponentForUrl("cousin", "/");
 	// t.deepEqual(mgr.getComponentListForUrl("/"), ["parent", "child", "cousin"]);
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "parent", "cousin"]);
-	t.deepEqual(mgr.getFullComponentList(), ["child", "parent", "cousin"]);
+	t.deepEqual(mgr.getFullComponentList(), ["child", "parent", "cousin", "other-parent"]);
 
 	mgr.addComponentForUrl("aunt", "/");
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "parent", "cousin", "aunt"]);
-	t.deepEqual(mgr.getFullComponentList(), ["child", "parent", "cousin", "aunt"]);
+	t.deepEqual(mgr.getFullComponentList(), ["child", "parent", "cousin", "aunt", "other-parent"]);
 });
 
 test("Relationships roll into final component list (sibling/child)", t => {
