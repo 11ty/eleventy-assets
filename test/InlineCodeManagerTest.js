@@ -13,10 +13,16 @@ test("Log components used on a URL", t => {
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["header"]);
 	t.deepEqual(mgr.getComponentListForUrl("/child/"), []);
 
+	mgr.addComponentForUrl("other-header", "/other-url/");
+	t.deepEqual(mgr.getFullComponentList(), ["header", "other-header"]);
+
 	// de-dupes
 	mgr.addComponentForUrl("header", "/");
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["header"]);
 	t.deepEqual(mgr.getComponentListForUrl("/child/"), []);
+
+	mgr.addComponentForUrl("other-header", "/other-url/");
+	t.deepEqual(mgr.getFullComponentList(), ["header", "other-header"]);
 });
 
 test("Relationships", t => {
@@ -48,15 +54,18 @@ test("Relationships roll into final component list", t => {
 	mgr.addComponentForUrl("parent", "/");
 	mgr.addRawComponentRelationship("parent.js", "child.js", ".js");
 	mgr.addRawComponentRelationship("aunt.js", "cousin.js", ".js");
-
+console.log( "lskdjflkdsjf" );
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "parent"]);
+	t.deepEqual(mgr.getFullComponentList(), ["child", "parent"]);
 
 	mgr.addComponentForUrl("cousin", "/");
 	// t.deepEqual(mgr.getComponentListForUrl("/"), ["parent", "child", "cousin"]);
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "parent", "cousin"]);
+	t.deepEqual(mgr.getFullComponentList(), ["child", "parent", "cousin"]);
 
 	mgr.addComponentForUrl("aunt", "/");
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "parent", "cousin", "aunt"]);
+	t.deepEqual(mgr.getFullComponentList(), ["child", "parent", "cousin", "aunt"]);
 });
 
 test("Relationships roll into final component list (sibling/child)", t => {
@@ -66,6 +75,7 @@ test("Relationships roll into final component list (sibling/child)", t => {
 	mgr.addRawComponentRelationship("parent.js", "sibling.js", ".js");
 
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "sibling", "parent"]);
+	t.deepEqual(mgr.getFullComponentList(), ["child", "sibling", "parent"]);
 });
 
 test("Add Component Code", t => {

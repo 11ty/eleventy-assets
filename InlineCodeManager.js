@@ -83,6 +83,23 @@ class InlineCodeManager {
     return this.graph.dependantsOf(key).filter(key => !this._isUrlKey(key));
   }
 
+  _getUrlList() {
+    return this.graph.overallOrder().filter(key => this._isUrlKey(key));
+  }
+
+  // only active components in use on urls
+  getFullComponentList() {
+    let list = new Set();
+    let urls = this._getUrlList();
+    for(let normalizedUrlKey of urls) {
+      let components = this._getComponentList(normalizedUrlKey);
+      for(let name of components) {
+        list.add(name);
+      }
+    }
+    return Array.from(list);
+  }
+
   /* styleNodes come from `rollup-plugin-css-only`->output */
   addRollupComponentNodes(styleNodes, fileExtension) {
     for(let path in styleNodes) {
@@ -117,7 +134,16 @@ class InlineCodeManager {
   // Maybe high priority corresponds with how high on the page the component is used
   // TODO shared bundles if there are a lot of shared code across URLs
   getCodeForUrl(url) {
-    return this.getComponentListForUrl(url).map(componentName => {
+    return this._getCode(this.getComponentListForUrl(url));
+  }
+
+  /* Code only for components that were used (independent of url) */
+  getAllCode() {
+    return this._getCode(this.getFullComponentList());
+  }
+
+  _getCode(componentList = []) {
+    return componentList.map(componentName => {
       let componentCodeArr = this.getComponentCode(componentName);
       if(componentCodeArr.length) {
         return `${this.comments.pre} ${componentName} Component ${this.comments.post}
@@ -126,7 +152,6 @@ ${componentCodeArr.join("\n")}`;
       return "";
     }).filter(entry => !!entry).join("\n");
   }
-
 }
 
 module.exports = InlineCodeManager;
