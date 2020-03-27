@@ -4,11 +4,20 @@ class InlineCodeManager {
   constructor() {
     this.urlKeyPrefix = "11ty_URL_KEY::";
     this.init();
+    this.comments = {
+      pre: "/*",
+      post: "*/"
+    };
   }
 
   init() {
     this.graph = new DependencyGraph();
     this.code = {};
+  }
+
+  setCommentSyntax(pre, post) {
+    this.comments.pre = pre;
+    this.comments.post = post;
   }
 
   _isUrlKey(key) {
@@ -111,7 +120,7 @@ class InlineCodeManager {
     return this.getComponentListForUrl(url).map(componentName => {
       let componentCodeArr = this.getComponentCode(componentName);
       if(componentCodeArr.length) {
-        return `/* ${componentName} Component */
+        return `${this.comments.pre} ${componentName} Component ${this.comments.post}
 ${componentCodeArr.join("\n")}`;
       }
       return "";
