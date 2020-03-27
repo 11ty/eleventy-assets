@@ -54,7 +54,7 @@ test("Relationships roll into final component list", t => {
 	mgr.addComponentForUrl("parent", "/");
 	mgr.addRawComponentRelationship("parent.js", "child.js", ".js");
 	mgr.addRawComponentRelationship("aunt.js", "cousin.js", ".js");
-console.log( "lskdjflkdsjf" );
+
 	t.deepEqual(mgr.getComponentListForUrl("/"), ["child", "parent"]);
 	t.deepEqual(mgr.getFullComponentList(), ["child", "parent"]);
 
