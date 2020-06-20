@@ -1,6 +1,6 @@
 ---
 layout: layout.njk
 ---
-{% usingComponent "header", page.url %}
+{% usingComponent "header" %}
 
-{% usingComponent "footer", page.url %}
+{% usingComponent "footer" %}

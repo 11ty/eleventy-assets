@@ -1,5 +1,4 @@
 ---
 layout: layout.njk
 ---
-{% usingComponent "header", page.url %}
-
+{% usingComponent "header" %}

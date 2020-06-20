@@ -59,6 +59,7 @@ class InlineCodeManager {
     }
   }
 
+  /* Deprecated */
   // strips file extensions
   addRawComponentRelationship(parentComponentFile, childComponentFile, fileExtension) {
     let parentName = InlineCodeManager.getComponentNameFromPath(parentComponentFile, fileExtension);
@@ -100,6 +101,7 @@ class InlineCodeManager {
     return Array.from(list);
   }
 
+  /* Deprecated */
   /* styleNodes come from `rollup-plugin-css-only`->output */
   addRollupComponentNodes(styleNodes, fileExtension) {
     for(let path in styleNodes) {

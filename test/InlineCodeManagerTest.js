@@ -93,3 +93,19 @@ test("Add Component Code", t => {
 	cssMgr.addComponentCode("header", fontWeight);
 	t.deepEqual(cssMgr.getComponentCode("header"), [fontWeight, fontColor]);
 });
+
+test("getCodeForUrl", t => {
+	let mgr = new InlineCodeManager();
+	let fontWeight = "p { font-weight: 700; }";
+	let fontColor = "div { color: blue; }";
+
+	mgr.addComponentCode("header", fontWeight);
+	mgr.addComponentCode("footer", fontColor);
+
+	mgr.addComponentForUrl("header", "/");
+	mgr.addComponentForUrl("footer", "/");
+	t.deepEqual(mgr.getCodeForUrl("/"), `/* header Component */
+p { font-weight: 700; }
+/* footer Component */
+div { color: blue; }`);
+});
