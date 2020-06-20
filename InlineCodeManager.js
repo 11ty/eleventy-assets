@@ -77,6 +77,11 @@ class InlineCodeManager {
     return this._getComponentList(urlKey);
   }
 
+  getRelevantComponentListForUrl(url) {
+    let list = this.getComponentListForUrl(url);
+    return list.filter(componentName => this.hasComponentCode(componentName));
+  }
+
   _getComponentList(key) {
     if(!this.graph.hasNode(key)) {
       return [];
@@ -115,7 +120,14 @@ class InlineCodeManager {
   }
 
   hasComponentCode(componentName) {
-    return !!this.code[componentName];
+    let codeSet = this.code[componentName] || new Set();
+    let hasNonEmptyCode = false;
+    for(let code of codeSet) {
+      if(!!code) {
+        hasNonEmptyCode = true;
+      }
+    }
+    return hasNonEmptyCode;
   }
 
   addComponentCode(componentName, code) {

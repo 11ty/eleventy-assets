@@ -25,6 +25,26 @@ test("Log components used on a URL", t => {
 	t.deepEqual(mgr.getFullComponentList(), ["header", "other-header"]);
 });
 
+test("Get component list for a URL but only components that have code", t => {
+	let mgr = new InlineCodeManager();
+	mgr.addComponentForUrl("header", "/");
+	mgr.addComponentForUrl("footer", "/");
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/"), []);
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/child/"), []);
+
+	mgr.addComponentCode("header", "/* this is code */");
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/"), ["header"]);
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/child/"), []);
+
+	mgr.addComponentCode("footer", ""); // code must not be empty
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/"), ["header"]);
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/child/"), []);
+
+	mgr.addComponentCode("footer", "/* this is code */");
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/"), ["header", "footer"]);
+	t.deepEqual(mgr.getRelevantComponentListForUrl("/child/"), []);
+});
+
 test("Relationships", t => {
 	let mgr = new InlineCodeManager();
 	// without a declared fileExtension
