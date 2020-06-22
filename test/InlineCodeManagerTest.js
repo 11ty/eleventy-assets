@@ -129,3 +129,74 @@ p { font-weight: 700; }
 /* footer Component */
 div { color: blue; }`);
 });
+
+test("getCodeForUrl sorted", t => {
+	let mgr = new InlineCodeManager();
+	let fontWeight = "p { font-weight: 700; }";
+	let fontColor = "div { color: blue; }";
+
+	mgr.addComponentCode("header", fontWeight);
+	mgr.addComponentCode("footer", fontColor);
+
+	mgr.addComponentForUrl("header", "/");
+	mgr.addComponentForUrl("footer", "/");
+	t.deepEqual(mgr.getCodeForUrl("/", {
+		sort: function(a, b) {
+			// alphabetical
+			if(a < b) {
+				return -1;
+			} else if(a > b) {
+				return 1;
+			}
+			return 0;
+		}
+	}), `/* footer Component */
+div { color: blue; }
+/* header Component */
+p { font-weight: 700; }`);
+});
+
+test("getCodeForUrl filtered", t => {
+	let mgr = new InlineCodeManager();
+	let fontWeight = "p { font-weight: 700; }";
+	let fontColor = "div { color: blue; }";
+
+	mgr.addComponentCode("header", fontWeight);
+	mgr.addComponentCode("footer", fontColor);
+
+	mgr.addComponentForUrl("header", "/");
+	mgr.addComponentForUrl("footer", "/");
+	t.deepEqual(mgr.getCodeForUrl("/", {
+		filter: entry => entry !== "header"
+	}), `/* footer Component */
+div { color: blue; }`);
+});
+
+test("getCodeForUrl filtered and sorted", t => {
+	let mgr = new InlineCodeManager();
+	let fontWeight = "p { font-weight: 700; }";
+	let fontColor = "div { color: blue; }";
+
+	mgr.addComponentCode("header", fontWeight);
+	mgr.addComponentCode("footer", fontColor);
+	mgr.addComponentCode("footer2", fontColor);
+
+	mgr.addComponentForUrl("header", "/");
+	mgr.addComponentForUrl("footer", "/");
+	mgr.addComponentForUrl("footer2", "/");
+	t.deepEqual(mgr.getCodeForUrl("/", {
+		filter: entry => entry !== "header",
+		sort: function(a, b) {
+			// reverse alphabetical
+			if(a < b) {
+				return 1;
+			} else if(a > b) {
+				return -1;
+			}
+			return 0;
+		}
+	}), `/* footer2 Component */
+div { color: blue; }
+/* footer Component */
+div { color: blue; }`);
+});

@@ -147,8 +147,8 @@ class InlineCodeManager {
   // TODO add priority level for components and only inline the ones that are above a priority level
   // Maybe high priority corresponds with how high on the page the component is used
   // TODO shared bundles if there are a lot of shared code across URLs
-  getCodeForUrl(url) {
-    return this._getCode(this.getComponentListForUrl(url));
+  getCodeForUrl(url, options) {
+    return this._getCode(this.getComponentListForUrl(url), options);
   }
 
   /* Code only for components that were used (independent of url) */
@@ -156,7 +156,14 @@ class InlineCodeManager {
     return this._getCode(this.getFullComponentList());
   }
 
-  _getCode(componentList = []) {
+  _getCode(componentList = [], options = {}) {
+    if(options.filter && typeof options.filter === "function") {
+      componentList = componentList.filter(options.filter);
+    }
+    if(options.sort && typeof options.sort === "function") {
+      componentList.sort(options.sort);
+    }
+
     return componentList.map(componentName => {
       let componentCodeArr = this.getComponentCode(componentName);
       if(componentCodeArr.length) {
