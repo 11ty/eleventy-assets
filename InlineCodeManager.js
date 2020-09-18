@@ -119,6 +119,10 @@ class InlineCodeManager {
     this.code = {};
   }
 
+  resetComponentCodeFor(componentName) {
+    this.code[componentName] = new Set();
+  }
+
   hasComponentCode(componentName) {
     let codeSet = this.code[componentName] || new Set();
     let hasNonEmptyCode = false;
