@@ -200,3 +200,46 @@ div { color: blue; }
 /* footer Component */
 div { color: blue; }`);
 });
+
+test("Reset and reset for component", t => {
+	let mgr = new InlineCodeManager();
+	mgr.addComponentForUrl("header", "/");
+	mgr.addComponentCode("header", "/* this is header code */");
+
+	t.deepEqual(mgr.getCodeForUrl("/"), `/* header Component */
+/* this is header code */`);
+
+	mgr.addComponentForUrl("footer", "/");
+	mgr.addComponentCode("footer", "/* this is footer code */");
+
+	t.deepEqual(mgr.getCodeForUrl("/"), `/* header Component */
+/* this is header code */
+/* footer Component */
+/* this is footer code */`);
+
+	mgr.addComponentForUrl("nav", "/");
+	mgr.addComponentCode("nav", "/* this is nav code */");
+
+	t.deepEqual(mgr.getCodeForUrl("/"), `/* header Component */
+/* this is header code */
+/* footer Component */
+/* this is footer code */
+/* nav Component */
+/* this is nav code */`);
+
+	mgr.resetComponentCodeFor("footer");
+
+	t.deepEqual(mgr.getCodeForUrl("/"), `/* header Component */
+/* this is header code */
+/* nav Component */
+/* this is nav code */`);
+
+	mgr.resetComponentCodeFor("nav");
+
+	t.deepEqual(mgr.getCodeForUrl("/"), `/* header Component */
+/* this is header code */`);
+
+	mgr.resetComponentCode();
+
+	t.deepEqual(mgr.getCodeForUrl("/"), ``);
+});
