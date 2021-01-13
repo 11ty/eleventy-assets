@@ -1,6 +1,6 @@
 {
   "name": "@11ty/eleventy-assets",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Manage per-route code (CSS, SVG, JS) in Eleventy.",
   "publishConfig": {
     "access": "public"
