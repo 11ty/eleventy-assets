@@ -122,6 +122,19 @@ class InlineCodeManager {
   resetComponentCodeFor(componentName) {
     this.code[componentName] = new Set();
   }
+  
+  resetForUrl(url) {
+    let urlKey = this._normalizeUrlKey(url);
+    if(!this.graph.hasNode(urlKey)) {
+      return;
+    }
+
+    let deps = this.graph.dependantsOf(urlKey);
+
+    for(let dep of deps) {
+      this.graph.removeDependency(dep, urlKey);
+    }
+  }
 
   hasComponentCode(componentName) {
     let codeSet = this.code[componentName] || new Set();

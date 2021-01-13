@@ -211,7 +211,7 @@ test("Reset and reset for component", t => {
 
 	mgr.addComponentForUrl("footer", "/");
 	mgr.addComponentCode("footer", "/* this is footer code */");
-
+	
 	t.deepEqual(mgr.getCodeForUrl("/"), `/* header Component */
 /* this is header code */
 /* footer Component */
@@ -240,6 +240,24 @@ test("Reset and reset for component", t => {
 /* this is header code */`);
 
 	mgr.resetComponentCode();
-
+	
 	t.deepEqual(mgr.getCodeForUrl("/"), ``);
+});
+
+test("Reset component lists", t => {
+	let mgr = new InlineCodeManager();
+	mgr.addComponentForUrl("header", "/");
+
+	t.deepEqual(mgr.getComponentListForUrl("/"), ["header"]);
+	
+	mgr.addComponentForUrl("footer", "/");
+	
+	t.deepEqual(mgr.getComponentListForUrl("/"), ["header", "footer"]);
+
+	mgr.addComponentForUrl("nav", "/");
+	
+	t.deepEqual(mgr.getComponentListForUrl("/"), ["header", "footer", "nav"]);
+
+	mgr.resetForUrl("/");
+	t.deepEqual(mgr.getComponentListForUrl("/"), []);
 });
