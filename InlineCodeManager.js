@@ -1,4 +1,5 @@
 const DependencyGraph = require("dependency-graph").DepGraph;
+const debug = require("debug")("EleventyAssets")
 
 class InlineCodeManager {
   constructor() {
@@ -11,6 +12,7 @@ class InlineCodeManager {
   }
 
   init() {
+    debug("Initializing a new dependency graph and new code map");
     this.graph = new DependencyGraph();
     this.code = {};
   }
@@ -49,6 +51,7 @@ class InlineCodeManager {
 
   _addDependency(from, to) {
     if(from && to) {
+      debug("Adding dependency from %o to %o", from, to);
       if(!this.graph.hasNode(from)) {
         this.graph.addNode(from);
       }
@@ -128,8 +131,8 @@ class InlineCodeManager {
     if(!this.graph.hasNode(urlKey)) {
       return;
     }
-
     let deps = this.graph.dependantsOf(urlKey);
+    debug("Resetting for url %o: %o dependencies to remove", url, deps.length)
 
     for(let dep of deps) {
       this.graph.removeDependency(dep, urlKey);
