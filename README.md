@@ -1,6 +1,8 @@
 # Eleventy Assets
 
-_⚠️ Work in progress!!_
+_⚠️ This utility is retired and [superseded by the Eleventy Bundle Plugin](https://github.com/11ty/eleventy-plugin-bundle)._
+
+---
 
 Code to help manage assets in your Eleventy project. This is not an `addPlugin` compatible Eleventy plugin. It is an npm package for use in your config or other plugins.
 
